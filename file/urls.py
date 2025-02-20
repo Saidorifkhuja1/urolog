@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import search_and_upload
+from .views import search_file
 
 urlpatterns = [
-    path("upload/", search_and_upload, name="search_and_upload"),
+    path("upload/", search_file, name="search_and_upload"),
 ]
 

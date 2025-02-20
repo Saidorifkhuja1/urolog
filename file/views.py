@@ -1,24 +1,28 @@
 from drf_spectacular.utils import extend_schema, OpenApiExample
 import os
-import shutil
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.serializers import Serializer, CharField
 
-# Define paths
-LOCAL_FILES_DIR = "C:/Users/YourUsername/Documents/"  # Change to your actual local directory
-UPLOAD_DIR = "/path/to/server/files/"  # Change to your actual upload directory
+# Define local directory where files are stored
+LOCAL_FILES_DIR = "/xx/xx/xx"
 
-# Create a serializer for Swagger to recognize the correct request format
+# Base URL where users can access files (Adjust if needed)
+BASE_DOWNLOAD_URL = "/xx/xx/xx/"  # Change this if hosting on a different server
+
+# /Users/yuldoshkhujaevsaidorifkhuja/Downloads/
+
+
 class FileSearchSerializer(Serializer):
-    name = CharField(help_text="Enter the filename (without .docx)")
+    name = CharField(help_text="Enter the filename (without extension)")
+
 
 @extend_schema(
-    summary="Search & Upload File",
-    description="User enters a filename (without .docx), and the API searches for 'filename.docx' in a local directory. If found, the file is uploaded to the server.",
-    request=FileSearchSerializer,  # Explicitly define request schema
-    responses={200: {"type": "object", "properties": {"message": {"type": "string"}, "filename": {"type": "string"}}}},
+    summary="Search File & Provide Download Link",
+    description="User enters a filename, and the API checks if 'filename.ini' exists in a local directory. If found, it returns a direct download URL.",
+    request=FileSearchSerializer,
+    responses={200: {"type": "object", "properties": {"message": {"type": "string"}, "download_url": {"type": "string"}}}},
     examples=[
         OpenApiExample(
             "Example Request",
@@ -28,19 +32,20 @@ class FileSearchSerializer(Serializer):
     ]
 )
 @api_view(["POST"])
-def search_and_upload(request):
-    file_name = request.data.get("name")  # User enters only the filename
+def search_file(request):
+    file_name = request.data.get("name")
 
     if not file_name:
         return Response({"error": "Missing file name!"}, status=status.HTTP_400_BAD_REQUEST)
 
-    full_file_name = f"{file_name}.docx"  # Automatically add .docx extension
+    full_file_name = f"{file_name}.ini"
     file_path = os.path.join(LOCAL_FILES_DIR, full_file_name)
 
     if os.path.exists(file_path):
-        # Copy file to server upload directory
-        server_file_path = os.path.join(UPLOAD_DIR, full_file_name)
-        shutil.copy(file_path, server_file_path)
-        return Response({"message": "File uploaded successfully!", "filename": full_file_name}, status=status.HTTP_200_OK)
+        download_url = f"{BASE_DOWNLOAD_URL}{full_file_name}"
+        return Response(
+            {"message": "File found!", "download_url": download_url},
+            status=status.HTTP_200_OK
+        )
     else:
         return Response({"error": "File not found!"}, status=status.HTTP_404_NOT_FOUND)
