@@ -38,7 +38,7 @@ def search_file(request):
     if not file_name:
         return Response({"error": "Missing file name!"}, status=status.HTTP_400_BAD_REQUEST)
 
-    full_file_name = f"{file_name}.ini"
+    full_file_name = f"{file_name}.docx"
     file_path = os.path.join(LOCAL_FILES_DIR, full_file_name)
 
     if os.path.exists(file_path):
