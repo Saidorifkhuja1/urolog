@@ -10,3 +10,4 @@ staticfiles
 
 db.sqlite3
 db/
+.idea
