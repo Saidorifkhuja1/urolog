@@ -1,0 +1,53 @@
+from rest_framework import generics
+from .models import *
+from .serializers import *
+from rest_framework.permissions import AllowAny,IsAdminUser
+
+class MessageCreateView(generics.CreateAPIView):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    permission_classes = [AllowAny]
+
+class MessageRetrieveView(generics.RetrieveAPIView):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    lookup_field = 'uid'
+    permission_classes = [AllowAny]
+
+
+
+
+class MessageListView(generics.ListAPIView):
+    queryset = Message.objects.all().order_by('-uploaded_at')
+    serializer_class = MessageSerializer
+    permission_classes = [AllowAny]
+
+
+
+class AnswerCreateView(generics.CreateAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    permission_classes = [IsAdminUser]
+
+class AnswerRetrieveView(generics.RetrieveAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    lookup_field = 'uid'
+    permission_classes = [AllowAny]
+
+class AnswerUpdateView(generics.UpdateAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    lookup_field = 'uid'
+    permission_classes = [IsAdminUser]
+
+class AnswerDeleteView(generics.DestroyAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    lookup_field = 'uid'
+    permission_classes = [IsAdminUser]
+
+class AnswerListView(generics.ListAPIView):
+    queryset = Answer.objects.all().order_by('-uploaded_at')
+    serializer_class = AnswerSerializer
+    permission_classes = [AllowAny]
