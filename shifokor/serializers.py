@@ -57,11 +57,11 @@ class ShifokorUpdateSerializer(serializers.ModelSerializer):
 
 
 class ShifokorListSerializer(serializers.ModelSerializer):
-    category_name = serializers.CharField(source='category.name', read_only=True)
+    category_title = serializers.CharField(source='category.title', read_only=True)
 
     class Meta:
         model = Shifokor
-        fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'category_name']
+        fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'category_title']
 
 
 

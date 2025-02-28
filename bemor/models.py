@@ -1,6 +1,7 @@
 from django.db import models
 from account.models import *
 import uuid
+from shifokor.models import Shifokor
 
 
 class Bemor(models.Model):
@@ -8,7 +9,7 @@ class Bemor(models.Model):
     name = models.CharField(max_length=1000)
     kasallik = models.TextField()
     tashxi = models.TextField()
-    doctor = models.ForeignKey(User, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Shifokor, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

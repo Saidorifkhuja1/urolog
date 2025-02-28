@@ -52,6 +52,7 @@ urlpatterns = [
     path('api/news/', include('news.urls')),
     path('api/shifokor/', include('shifokor.urls')),
     path('api/question/', include('question.urls')),
+    path('api/bemor/', include('bemor.urls')),
 
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

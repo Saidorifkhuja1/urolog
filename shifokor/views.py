@@ -15,6 +15,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from account.serializers import PasswordResetSerializer
 
 
+
 class CategoryCreateView(generics.CreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -30,9 +31,13 @@ class ShifokorListByCategoryAPIView(generics.ListAPIView):
     serializer_class = ShifokorListSerializer
 
     def get_queryset(self):
-        category_name = self.kwargs.get('category_name')
-        return Shifokor.objects.filter(category__name=category_name)
+        category_uid = self.kwargs.get('category_uid')  # Get category UID from URL
+        print(f"Filtering for Category UID: {category_uid}")  # Debugging
 
+        queryset = Shifokor.objects.filter(category__uid=category_uid)
+        print(f"Queryset: {queryset}")  # Debugging
+
+        return queryset
 
 
 
@@ -73,7 +78,7 @@ class RetrieveProfileView(generics.RetrieveAPIView):
         if not user_id:
             raise NotFound("User not found")
 
-        user = get_object_or_404(User, uid=user_id)
+        user = get_object_or_404(Shifokor, uid=user_id)
         serializer = self.get_serializer(user)
 
         return Response(serializer.data)
@@ -87,11 +92,11 @@ class UpdateProfileView(generics.UpdateAPIView):
     def get_queryset(self):
         decoded_token = unhash_token(self.request.headers)
         user_id = decoded_token.get('user_id')
-        return User.objects.filter(uid=user_id)
+        return Shifokor.objects.filter(uid=user_id)
 
 
 class PasswordResetView(APIView):
-    queryset = User.objects.all()
+    queryset = Shifokor.objects.all()
     serializer_class = PasswordResetSerializer
     permission_classes = [IsAuthenticated]
 
@@ -133,7 +138,7 @@ class DeleteProfileAPIView(generics.DestroyAPIView):
     def get_queryset(self):
         decoded_token = unhash_token(self.request.headers)
         user_id = decoded_token.get('user_id')
-        return User.objects.filter(uid=user_id)
+        return Shifokor.objects.filter(uid=user_id)
 
     def perform_destroy(self, instance):
 
