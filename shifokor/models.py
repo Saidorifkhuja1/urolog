@@ -15,4 +15,5 @@ class Category(models.Model):
 class Shifokor(User):
     # uid = models.UUIDField(default=uuid.uuid4, primary_key=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    description = models.TextField()
 

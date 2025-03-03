@@ -19,7 +19,7 @@ class ShifokorRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Shifokor
-        fields = ['uid', 'name', 'last_name', 'category', 'phone_number', 'email', 'photo', 'password']
+        fields = ['uid', 'name', 'last_name', 'category', 'phone_number', 'email', 'photo', 'password', 'description']
         read_only_fields = ['uid']
 
     def create(self, validated_data):
@@ -33,7 +33,7 @@ class ShifokorRegistrationSerializer(serializers.ModelSerializer):
 class ShifokorProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shifokor
-        fields = ['uid', 'phone_number', 'name', 'category', 'last_name', 'email', 'photo']
+        fields = ['uid', 'phone_number', 'name', 'category', 'last_name', 'email', 'photo', 'description', 'is_staff']
 
 
 class ShifokorUpdateSerializer(serializers.ModelSerializer):
@@ -47,6 +47,7 @@ class ShifokorUpdateSerializer(serializers.ModelSerializer):
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.email = validated_data.get('email', instance.email)
         instance.category = validated_data.get('category', instance.category)
+        instance.description = validated_data.get('description', instance.escription)
 
         if 'avatar' in validated_data:
             instance.avatar = validated_data['photo']
@@ -61,7 +62,7 @@ class ShifokorListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Shifokor
-        fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'category_title']
+        fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'category_title', 'description']
 
 
 
