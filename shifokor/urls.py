@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
 
    path('register/', ShifokorRegistrationAPIView.as_view()),
-   path('login/', TokenObtainPairView.as_view()),
+   path('login/', ShifokorLoginView.as_view()),
    path('profile_details/', RetrieveProfileView.as_view()),
    path('update_profile/<uuid:uid>/', UpdateProfileView.as_view()),
    path('reset_password/', PasswordResetView.as_view()),

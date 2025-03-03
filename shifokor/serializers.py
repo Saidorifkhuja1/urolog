@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import *
 
 
@@ -66,16 +66,19 @@ class ShifokorListSerializer(serializers.ModelSerializer):
 
 
 
-# class PasswordResetSerializer(serializers.Serializer):
-#     old_password = serializers.CharField(write_only=True)
-#     new_password = serializers.CharField(write_only=True)
-#
-#     class Meta:
-#         fields = ['old_password', 'new_password']
-#
-#     def validate(self, data):
-#         if data['old_password'] == data['new_password']:
-#             raise serializers.ValidationError("The new password cannot be the same as the old password.")
-#         return data
+
+
+
+class ShifokorLoginSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        user = self.user
+
+        data["is_doctor"] = user.is_doctor
+
+        return data
+
+    class Meta:
+        ref_name = "ShifokorLoginSerializer"
 
 

@@ -1,4 +1,5 @@
 from .models import *
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from .serializers import *
@@ -14,6 +15,9 @@ from account.permissions import IsSuperUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from account.serializers import PasswordResetSerializer
 
+
+class ShifokorLoginView(TokenObtainPairView):
+    serializer_class = ShifokorLoginSerializer
 
 
 class CategoryCreateView(generics.CreateAPIView):

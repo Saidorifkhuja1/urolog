@@ -48,6 +48,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     photo = models.ImageField(upload_to='accounts/photos/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_doctor = models.BooleanField(default=False)
+
+    @property
+    def is_doctor_status(self):
+        return self.is_doctor
 
     objects = UserManager()
 

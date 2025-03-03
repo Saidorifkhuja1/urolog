@@ -1,4 +1,4 @@
-
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from .serializers import *
@@ -11,6 +11,11 @@ from django.contrib.auth.hashers import make_password, check_password
 from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
 
+
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = Accountlogin
 
 
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -122,4 +127,9 @@ class DeleteProfileAPIView(generics.DestroyAPIView):
         self.perform_destroy(user)
 
         return Response({"message": "User successfully deleted"}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
 

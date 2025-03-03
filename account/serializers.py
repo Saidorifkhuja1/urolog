@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
 
 
@@ -61,8 +61,14 @@ class PasswordResetSerializer(serializers.Serializer):
         return data
 
 
+class Accountlogin(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data["is_staff"] = self.user.is_staff
+        return data
 
-
+    class Meta:
+        ref_name = "AccountLoginSerializer"
 
 # class SendOTPSerializer(serializers.Serializer):
 #     phone_number = serializers.CharField(max_length=21)

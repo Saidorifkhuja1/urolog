@@ -16,9 +16,5 @@ class Shifokor(User):
     # uid = models.UUIDField(default=uuid.uuid4, primary_key=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField()
-    is_doctor = models.BooleanField(default=False)
 
-    @property
-    def is_doctor_status(self):
-        return self.is_doctor
 
