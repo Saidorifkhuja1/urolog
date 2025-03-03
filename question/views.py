@@ -23,11 +23,18 @@ class MessageListView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
 
-
 class AnswerCreateView(generics.CreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     permission_classes = [IsAdminUser]
+
+    def perform_create(self, serializer):
+        answer = serializer.save()  # Save the answer instance
+
+        # Update the related message's status to "answered"
+        message = answer.message
+        message.status = "answered"
+        message.save()
 
 class AnswerRetrieveView(generics.RetrieveAPIView):
     queryset = Answer.objects.all()

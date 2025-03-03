@@ -4,7 +4,7 @@ from .models import *
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['uid', 'title', 'body', 'uploaded_at']
+        fields = ['uid', 'title', 'body', 'uploaded_at', 'status']
         read_only_fields = ['uid']
 
 
