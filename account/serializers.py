@@ -24,7 +24,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['uid', 'phone_number', 'name', 'last_name', 'email', 'photo', 'is_staff']
+        fields = ['uid', 'phone_number', 'name', 'last_name', 'email', 'photo', 'is_doctor']
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -64,7 +64,7 @@ class PasswordResetSerializer(serializers.Serializer):
 class Accountlogin(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
-        data["is_staff"] = self.user.is_staff
+        data["is_doctor"] = self.user.is_doctor
         return data
 
     class Meta:
