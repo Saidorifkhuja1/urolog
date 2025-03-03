@@ -33,7 +33,7 @@ class ShifokorRegistrationSerializer(serializers.ModelSerializer):
 class ShifokorProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shifokor
-        fields = ['uid', 'phone_number', 'name', 'category', 'last_name', 'email', 'photo', 'description', 'is_staff']
+        fields = ['uid', 'phone_number', 'name', 'category', 'last_name', 'email', 'photo', 'description', 'is_staff', 'is_doctor']
 
 
 class ShifokorUpdateSerializer(serializers.ModelSerializer):
@@ -77,3 +77,5 @@ class ShifokorListSerializer(serializers.ModelSerializer):
 #         if data['old_password'] == data['new_password']:
 #             raise serializers.ValidationError("The new password cannot be the same as the old password.")
 #         return data
+
+
