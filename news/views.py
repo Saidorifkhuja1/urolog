@@ -7,17 +7,14 @@ from .serializers import *
 
 class NewsCreateView(generics.CreateAPIView):
     queryset = News.objects.all()
-    serializer_class = NewsSerializer
+    serializer_class = NewsCreateSerializer
     permission_classes = [IsSuperUser]
     parser_classes = [MultiPartParser, FormParser]
 
+    def perform_create(self, serializer):
+        """Validate before saving"""
+        serializer.save()
 
-    def create(self, request, *args, **kwargs):
-
-        response = super().create(request, *args, **kwargs)
-
-
-        return response
 
 class NewsRetrieveView(generics.RetrieveAPIView):
     queryset = News.objects.all()
@@ -28,10 +25,14 @@ class NewsRetrieveView(generics.RetrieveAPIView):
 
 class NewsUpdateView(generics.UpdateAPIView):
     queryset = News.objects.all()
-    serializer_class = NewsSerializer
+    serializer_class = NewsCreateSerializer
     permission_classes = [IsSuperUser]
     lookup_field = 'uid'
     parser_classes = [MultiPartParser, FormParser]
+
+    def perform_update(self, serializer):
+        """Validate before saving"""
+        serializer.save()
 
 
 class NewsDeleteView(generics.DestroyAPIView):
