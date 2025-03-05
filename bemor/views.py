@@ -32,7 +32,7 @@ class BemorRetrieveView(generics.RetrieveAPIView):
         # doc.add_paragraph(f"ID: {bemor.uid}")
         doc.add_paragraph(f"Ism: {bemor.name}")
         doc.add_paragraph(f"Kasallik: {bemor.kasallik}")
-        doc.add_paragraph(f"Tashxis: {bemor.tashxi}")
+        doc.add_paragraph(f"Tashxis: {bemor.tashxis}")
         doc.add_paragraph(f"Shifokor: {bemor.doctor.name} {bemor.doctor.last_name}")
 
         # Save to a temporary file
@@ -77,7 +77,7 @@ class BemorDocxDownloadView(generics.RetrieveAPIView):
         # doc.add_paragraph(f"🆔 ID: {bemor.uid}")
         doc.add_paragraph(f" Ism: {bemor.name}")
         doc.add_paragraph(f"Kasallik: {bemor.kasallik}")
-        doc.add_paragraph(f" Tashxis: {bemor.tashxi}")
+        doc.add_paragraph(f" Tashxis: {bemor.tashxis}")
         doc.add_paragraph(f" Shifokor: {bemor.doctor.name} {bemor.doctor.last_name}")
 
         # Prepare the HTTP response
