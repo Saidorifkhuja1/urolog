@@ -155,3 +155,12 @@ class DeleteProfileAPIView(generics.DestroyAPIView):
         self.perform_destroy(user)
 
         return Response({"message": "User successfully deleted"}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+class ShifokorListView(generics.ListAPIView):
+    queryset = Shifokor.objects.all()
+    serializer_class = ShifokorProfileSerializer
+
+
