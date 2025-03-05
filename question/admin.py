@@ -6,7 +6,5 @@ class MessageAdmin(admin.ModelAdmin):
     list_display = ['title']
 
 
-@admin.register(Answer)
-class AnswerAdmin(admin.ModelAdmin):
-    list_display = ['title']
+
 

@@ -1,16 +1,21 @@
 from rest_framework import serializers
-from .models import *
+from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
+from .models import Message
 
 class MessageSerializer(serializers.ModelSerializer):
     status = serializers.CharField(read_only=True, default="not answered")
+
     class Meta:
         model = Message
         fields = ['uid', 'title', 'body', 'uploaded_at', 'status']
         read_only_fields = ['uid']
 
 
-class AnswerSerializer(serializers.ModelSerializer):
+class MessageUpdateSerializer(serializers.ModelSerializer):
+
+
     class Meta:
-        model = Answer
-        fields = ['uid', 'message', 'title', 'body', 'uploaded_at']
-        read_only_fields = ['uid']
+        model = Message
+        fields = ['title', 'body', 'answer', 'status']
+        read_only_fields = ['status']

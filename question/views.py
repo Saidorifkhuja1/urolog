@@ -1,7 +1,9 @@
 from rest_framework import generics
-from .models import *
+from .models import Message
 from .serializers import *
-from rest_framework.permissions import AllowAny,IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.response import Response
+
 
 class MessageCreateView(generics.CreateAPIView):
     queryset = Message.objects.all()
@@ -12,6 +14,7 @@ class MessageCreateView(generics.CreateAPIView):
         """Ensure the status is always 'not answered' when creating a new message."""
         serializer.save(status='not answered')
 
+
 class MessageRetrieveView(generics.RetrieveAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
@@ -19,46 +22,27 @@ class MessageRetrieveView(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
 
 
-
-
 class MessageListView(generics.ListAPIView):
-    queryset = Message.objects.all().order_by('-uploaded_at')
     serializer_class = MessageSerializer
-    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated and user.is_staff:
+            return Message.objects.filter(status='not answered').order_by('-uploaded_at')
+        return Message.objects.filter(status='answered').order_by('-uploaded_at')
 
 
-class AnswerCreateView(generics.CreateAPIView):
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
-    permission_classes = [IsAdminUser]
 
-    def perform_create(self, serializer):
-        answer = serializer.save()  # Save the answer instance
 
-        # # Update the related message's status to "answered"
-        # message = answer.message
-        # message.status = "answered"
-        # message.save()
-
-class AnswerRetrieveView(generics.RetrieveAPIView):
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
+class MessageUpdateView(generics.UpdateAPIView):
+    queryset = Message.objects.all()
+    serializer_class = MessageUpdateSerializer  # ✅ Use the update serializer
     lookup_field = 'uid'
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminUser]  # ✅ Only admins can update messages
 
-class AnswerUpdateView(generics.UpdateAPIView):
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
-    lookup_field = 'uid'
-    permission_classes = [IsAdminUser]
-
-class AnswerDeleteView(generics.DestroyAPIView):
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
-    lookup_field = 'uid'
-    permission_classes = [IsAdminUser]
-
-class AnswerListView(generics.ListAPIView):
-    queryset = Answer.objects.all().order_by('-uploaded_at')
-    serializer_class = AnswerSerializer
-    permission_classes = [AllowAny]
+    def perform_update(self, serializer):
+        """Ensure the status is set to 'answered' when an answer is provided."""
+        instance = serializer.save()
+        if instance.answer:
+            instance.status = 'answered'
+            instance.save()
