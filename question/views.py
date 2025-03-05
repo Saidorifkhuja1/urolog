@@ -8,6 +8,10 @@ class MessageCreateView(generics.CreateAPIView):
     serializer_class = MessageSerializer
     permission_classes = [AllowAny]
 
+    def perform_create(self, serializer):
+        """Ensure the status is always 'not answered' when creating a new message."""
+        serializer.save(status='not answered')
+
 class MessageRetrieveView(generics.RetrieveAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
@@ -31,10 +35,10 @@ class AnswerCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         answer = serializer.save()  # Save the answer instance
 
-        # Update the related message's status to "answered"
-        message = answer.message
-        message.status = "answered"
-        message.save()
+        # # Update the related message's status to "answered"
+        # message = answer.message
+        # message.status = "answered"
+        # message.save()
 
 class AnswerRetrieveView(generics.RetrieveAPIView):
     queryset = Answer.objects.all()

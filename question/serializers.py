@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 class MessageSerializer(serializers.ModelSerializer):
+    status = serializers.CharField(read_only=True, default="not answered")
     class Meta:
         model = Message
         fields = ['uid', 'title', 'body', 'uploaded_at', 'status']
