@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Bemor
 
-# Register your models here.
+@admin.register(Bemor)
+class BemorAdmin(admin.ModelAdmin):
+    list_display = ['name']
+

@@ -10,7 +10,7 @@ from rest_framework.exceptions import NotFound, AuthenticationFailed
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
-
+from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 
 
 
@@ -60,15 +60,14 @@ class RetrieveProfileView(generics.RetrieveAPIView):
         return Response(serializer.data)
 
 
-class UpdateProfileView(generics.UpdateAPIView):
-    serializer_class = UserUpdateSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    lookup_field = "uid"
 
-    def get_queryset(self):
-        decoded_token = unhash_token(self.request.headers)
-        user_id = decoded_token.get('user_id')
-        return User.objects.filter(uid=user_id)
+class UpdateProfileView(generics.UpdateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def get_object(self):
+        return self.request.user
 
 
 class PasswordResetView(APIView):

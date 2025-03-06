@@ -1,6 +1,10 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
+from drf_extra_fields.fields import Base64ImageField
+import base64
+from django.core.files.base import ContentFile
+from django.core.exceptions import ValidationError
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -27,25 +31,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ['uid', 'phone_number', 'name', 'last_name', 'email', 'photo', 'is_doctor']
 
 
-class UserUpdateSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+    photo = Base64ImageField(required=False)  # Accepts base64 images
+
     class Meta:
         model = User
-        fields = ['name', 'last_name', 'email', 'photo']
-        read_only_fields = ['phone_number']  # phone_number cannot be updated
-
-    def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.email = validated_data.get('email', instance.email)
-
-        if 'avatar' in validated_data:
-            instance.avatar = validated_data['photo']
-
-        instance.save()
-        return instance
-
-
-
+        fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'is_admin', 'is_doctor']
+        read_only_fields = ['uid', 'is_admin', 'is_doctor']
 
 
 class PasswordResetSerializer(serializers.Serializer):
