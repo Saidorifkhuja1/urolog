@@ -30,13 +30,19 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(required=False)  # Accepts base64 images
+    photo = serializers.ImageField(required=False)  # Supports file uploads
 
     class Meta:
         model = User
-        fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'is_admin', 'is_doctor']
+        fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'is_active', 'is_admin', 'is_doctor']
         read_only_fields = ['uid', 'is_admin', 'is_doctor']
 
+    def validate_photo(self, value):
+        """Allow both base64 and file uploads."""
+        if isinstance(value, str):
+            return Base64ImageField().to_internal_value(value)  # Convert base64 to image
+        return value
+    
 
 class PasswordResetSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)
