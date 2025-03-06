@@ -88,15 +88,13 @@ class RetrieveProfileView(generics.RetrieveAPIView):
         return Response(serializer.data)
 
 
-class UpdateProfileView(generics.UpdateAPIView):
+class UpdateShifokorProfileView(generics.UpdateAPIView):
     serializer_class = ShifokorUpdateSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    lookup_field = "uid"
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
-    def get_queryset(self):
-        decoded_token = unhash_token(self.request.headers)
-        user_id = decoded_token.get('user_id')
-        return Shifokor.objects.filter(uid=user_id)
+    def get_object(self):
+        return Shifokor.objects.get(uid=self.request.user.uid)
 
 
 class PasswordResetView(APIView):

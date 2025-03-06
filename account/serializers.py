@@ -29,7 +29,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ['uid', 'phone_number', 'name', 'last_name', 'email', 'photo', 'is_doctor']
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserUpdateSerializer(serializers.ModelSerializer):
     photo = Base64ImageField(required=False)  # Accepts base64 images
 
     class Meta:

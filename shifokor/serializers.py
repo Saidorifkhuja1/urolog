@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import *
+from drf_extra_fields.fields import Base64ImageField
 
 
 
@@ -37,10 +38,12 @@ class ShifokorProfileSerializer(serializers.ModelSerializer):
 
 
 class ShifokorUpdateSerializer(serializers.ModelSerializer):
+    photo = Base64ImageField(required=False)  # Accepts base64 images
+
     class Meta:
         model = Shifokor
-        fields = ['name', 'last_name', 'category', 'email', 'photo']
-        read_only_fields = ['phone_number']  # phone_number cannot be updated
+        fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'is_admin', 'is_doctor', 'category', 'description']
+        read_only_fields = ['uid', 'is_admin', 'is_doctor'] # phone_number cannot be updated
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)

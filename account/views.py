@@ -62,7 +62,7 @@ class RetrieveProfileView(generics.RetrieveAPIView):
 
 
 class UpdateProfileView(generics.UpdateAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserUpdateSerializer
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
 
