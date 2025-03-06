@@ -2,9 +2,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
 from drf_extra_fields.fields import Base64ImageField
-import base64
-from django.core.files.base import ContentFile
-from django.core.exceptions import ValidationError
+
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
