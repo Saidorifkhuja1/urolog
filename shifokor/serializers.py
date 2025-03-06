@@ -37,23 +37,30 @@ class ShifokorProfileSerializer(serializers.ModelSerializer):
         fields = ['uid', 'phone_number', 'name', 'category', 'last_name', 'email', 'photo', 'description', 'is_staff', 'is_doctor']
 
 
+
 class ShifokorUpdateSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(required=False)  # Accepts base64 images
+    photo = serializers.ImageField(required=False)
 
     class Meta:
         model = Shifokor
         fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'is_admin', 'is_doctor', 'category', 'description']
-        read_only_fields = ['uid', 'is_admin', 'is_doctor'] # phone_number cannot be updated
+        read_only_fields = ['uid', 'is_admin', 'is_doctor']
+
+    def validate_photo(self, value):
+        """Allow both base64 and file uploads."""
+        if isinstance(value, str):  # If it's a base64 string
+            return Base64ImageField().to_internal_value(value)
+        return value  # If it's a file, return as is
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.email = validated_data.get('email', instance.email)
         instance.category = validated_data.get('category', instance.category)
-        instance.description = validated_data.get('description', instance.escription)
+        instance.description = validated_data.get('description', instance.description)  # Fixed typo
 
-        if 'avatar' in validated_data:
-            instance.avatar = validated_data['photo']
+        if 'photo' in validated_data:
+            instance.photo = validated_data['photo']  # Fixed key name
 
         instance.save()
         return instance

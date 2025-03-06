@@ -40,9 +40,9 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     def validate_photo(self, value):
         """Allow both base64 and file uploads."""
         if isinstance(value, str):
-            return Base64ImageField().to_internal_value(value)  # Convert base64 to image
+            return Base64ImageField().to_internal_value(value)  
         return value
-    
+
 
 class PasswordResetSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)
