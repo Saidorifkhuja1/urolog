@@ -32,6 +32,7 @@ class ShifokorRegistrationSerializer(serializers.ModelSerializer):
 
 
 class ShifokorProfileSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(source="category.title")
     class Meta:
         model = Shifokor
         fields = ['uid', 'phone_number', 'name', 'category', 'last_name', 'email', 'photo', 'description', 'is_staff', 'is_doctor']
