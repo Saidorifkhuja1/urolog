@@ -179,8 +179,8 @@ from datetime import timedelta
 
 SIMPLE_JWT = {
 
-    "ACCESS_TOKEN_LIFETIME": timedelta(weeks=500),
-    "REFRESH_TOKEN_LIFETIME": timedelta(weeks=100),
+    "ACCESS_TOKEN_LIFETIME": timedelta(weeks=1000),
+    "REFRESH_TOKEN_LIFETIME": timedelta(weeks=1000),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": False,

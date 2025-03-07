@@ -17,20 +17,19 @@ class MessageCreateView(generics.CreateAPIView):
 
 class MessageRetrieveView(generics.RetrieveAPIView):
     queryset = Message.objects.all()
-    serializer_class = MessageSerializer
+    serializer_class = MessageListSerializer
     lookup_field = 'uid'
     permission_classes = [AllowAny]
 
 
 class MessageListView(generics.ListAPIView):
-    serializer_class = MessageSerializer
+    serializer_class = MessageListSerializer
 
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated and user.is_staff:
             return Message.objects.filter(status='not answered').order_by('-uploaded_at')
         return Message.objects.filter(status='answered').order_by('-uploaded_at')
-
 
 
 

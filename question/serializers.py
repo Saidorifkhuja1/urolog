@@ -19,3 +19,12 @@ class MessageUpdateSerializer(serializers.ModelSerializer):
         model = Message
         fields = ['title', 'body', 'answer', 'status']
         read_only_fields = ['status']
+
+class MessageListSerializer(serializers.ModelSerializer):
+    status = serializers.CharField(read_only=True, default="not answered")
+    answer = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Message
+        fields = ['uid', 'title', 'body', 'uploaded_at', 'status', 'answer']
+        read_only_fields = ['uid', 'status', 'answer']

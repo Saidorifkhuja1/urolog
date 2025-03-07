@@ -43,7 +43,7 @@ class ShifokorUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Shifokor
-        fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'is_admin', 'is_doctor', 'category', 'description']
+        fields = ['uid', 'name', 'last_name', 'phone_number', 'email', 'photo', 'is_admin', 'is_doctor', 'description']
         read_only_fields = ['uid', 'is_admin', 'is_doctor']
 
     def validate_photo(self, value):

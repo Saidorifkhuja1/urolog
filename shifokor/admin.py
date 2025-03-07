@@ -1,6 +1,6 @@
 from django.contrib import admin
 from rest_framework.exceptions import PermissionDenied
-
+from django.contrib.auth.hashers import make_password
 from .models import *
 
 @admin.register(Shifokor)
@@ -20,8 +20,11 @@ class ShifokorAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         if form.cleaned_data.get("password"):
-            obj.set_password(form.cleaned_data["password"])  # Ensure password hashing
+            if not change or 'password' in form.changed_data:  # Only hash if password is set or changed
+                obj.password = make_password(form.cleaned_data["password"])  # Hash password
         super().save_model(request, obj, form, change)
+
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

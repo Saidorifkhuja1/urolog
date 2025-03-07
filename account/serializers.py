@@ -40,7 +40,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     def validate_photo(self, value):
         """Allow both base64 and file uploads."""
         if isinstance(value, str):
-            return Base64ImageField().to_internal_value(value)  
+            return Base64ImageField().to_internal_value(value)
         return value
 
 
