@@ -33,7 +33,7 @@ class BemorRetrieveView(generics.RetrieveAPIView):
         doc.add_paragraph(f"Ism: {bemor.name}")
         doc.add_paragraph(f"Kasallik: {bemor.kasallik}")
         doc.add_paragraph(f"Tashxis: {bemor.tashxis}")
-        doc.add_paragraph(f"Shifokor: {bemor.doctor.name} {bemor.doctor.last_name}")
+        doc.add_paragraph(f"Shifokor: {bemor.doctor}")
 
         # Save to a temporary file
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
@@ -78,7 +78,7 @@ class BemorDocxDownloadView(generics.RetrieveAPIView):
         doc.add_paragraph(f" Ism: {bemor.name}")
         doc.add_paragraph(f"Kasallik: {bemor.kasallik}")
         doc.add_paragraph(f" Tashxis: {bemor.tashxis}")
-        doc.add_paragraph(f" Shifokor: {bemor.doctor.name} {bemor.doctor.last_name}")
+        doc.add_paragraph(f"Shifokor: {bemor.doctor}")
 
         # Prepare the HTTP response
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')

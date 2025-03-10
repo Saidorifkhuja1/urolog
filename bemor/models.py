@@ -9,7 +9,8 @@ class Bemor(models.Model):
     name = models.CharField(max_length=1000)
     kasallik = models.TextField()
     tashxis = models.TextField()
-    doctor = models.ForeignKey(Shifokor, on_delete=models.CASCADE, null=True, blank=True)
+    doctor = models.CharField(max_length=500)
+    # doctor = models.ForeignKey(Shifokor, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name
