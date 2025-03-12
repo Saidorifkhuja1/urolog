@@ -6,11 +6,15 @@ from reportlab.lib.enums import TA_CENTER
 from rest_framework.permissions import IsAdminUser
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics, filters
+from .filters import BemorFilter
 from .models import Bemor
 from .serializers import BemorSerializer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import Paragraph
 from django.http import HttpResponse
+from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
 class BemorCreateView(generics.CreateAPIView):
@@ -46,12 +50,22 @@ class BemorListView(generics.ListAPIView):
 
 
 
+
 class BemorSearchView(generics.ListAPIView):
     queryset = Bemor.objects.all()
     serializer_class = BemorSerializer
-    permission_classes = []  # Open for everyone
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['name']
+    permission_classes = []
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BemorFilter
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter('name', openapi.IN_QUERY, description="F.I.Sh", type=openapi.TYPE_STRING),
+            openapi.Parameter('tugilgan', openapi.IN_QUERY, description="Tug'ilgan sana (YYYY-MM-DD)", type=openapi.TYPE_STRING),
+        ]
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 
