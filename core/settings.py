@@ -32,7 +32,7 @@ SECRET_KEY = "django-insecure-zpt&ylc%s_v(!_cfsd^bt!s!0$4u$1t^-w(()4g7v9dqnjv3+q
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://mytestprojects1.pythonanywhere.com']
+CSRF_TRUSTED_ORIGINS = ['https://urolog.pythonanywhere.com']
 CORS_ALLOW_ALL_ORIGINS = True
 
 
