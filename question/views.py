@@ -1,4 +1,6 @@
 from rest_framework import generics
+
+from account.permissions import IsDoctorOrAdmin
 from .models import Message
 from .serializers import *
 from rest_framework.permissions import AllowAny, IsAdminUser
@@ -45,3 +47,25 @@ class MessageUpdateView(generics.UpdateAPIView):
         if instance.answer:
             instance.status = 'answered'
             instance.save()
+
+
+
+
+
+class CommentCreateAPIView(generics.CreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+
+class CommentListAPIView(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [IsDoctorOrAdmin]
+
+
+class CommentDeleteAPIView(generics.DestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [IsDoctorOrAdmin]
+    lookup_field = 'uid'
