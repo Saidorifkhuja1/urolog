@@ -22,9 +22,9 @@ class News(models.Model):
             raise ValidationError({"image_video": "You must upload either an image or a video."})
 
         valid_image_types = ['image/jpeg', 'image/png', 'image/gif']
-        valid_video_types = ['video/mp4', 'video/avi', 'video/mov', 'video/mkv']
+        valid_video_types = ['video/mp4', 'video/webm', 'video/ogg']
 
-        file_type = self.image_video.file.content_type  # Get uploaded file type
+        file_type = self.image_video.file.content_type
 
         if self.type == "image" and file_type not in valid_image_types:
             raise ValidationError({"image_video": "Uploaded file must be an image."})

@@ -32,7 +32,7 @@ class MessageListSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    uid = serializers.UUIDField(read_only=True)  
+    uid = serializers.UUIDField(read_only=True)
 
     class Meta:
         model = Comment
