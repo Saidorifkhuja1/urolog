@@ -1,21 +1,18 @@
-#!/bin/sh
+#!/bin/bash
+# wait-for-postgres.sh
 
-# Wait until PostgreSQL is ready
-echo "Waiting for PostgreSQL..."
+set -e
 
-while ! nc -z db 5432; do
+host="$DB_HOST"
+user="$DB_USER"
+password="$DB_PASSWORD"
+db="$DB_NAME"
+
+echo "Waiting for PostgreSQL to start..."
+
+until PGPASSWORD=$password psql -h "$host" -U "$user" -d "$db" -c '\q'; do
+  echo "PostgreSQL is unavailable - sleeping"
   sleep 1
 done
 
-echo "PostgreSQL started"
-
-# Run migrations
-python manage.py migrate
-
-# Collect static files
-python manage.py collectstatic --noinput
-
-# Start the application
-exec gunicorn core.wsgi:application --bind 0.0.0.0:8000
-
-
+echo "PostgreSQL is up - executing command"
