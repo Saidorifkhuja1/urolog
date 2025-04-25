@@ -28,7 +28,10 @@ multidict==6.1.0
 packaging==24.2
 pillow==11.1.0
 propcache==0.2.1
+
+
 psycopg==3.2.6
+
 PyJWT==2.10.1
 python-docx==1.1.2
 python-dotenv==1.0.1
