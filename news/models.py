@@ -10,7 +10,7 @@ class News(models.Model):
     body = models.TextField()
 
     # Multiple photo fields
-    photo1 = models.ImageField(upload_to='news/photos/')
+    photo1 = models.ImageField(upload_to='news/photos/', null=True, blank=True)
     photo2 = models.ImageField(upload_to='news/photos/', null=True, blank=True)
     photo3 = models.ImageField(upload_to='news/photos/', null=True, blank=True)
     photo4 = models.ImageField(upload_to='news/photos/', null=True, blank=True)
