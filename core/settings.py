@@ -78,7 +78,7 @@ MIDDLEWARE = [
 
 AUTH_USER_MODEL = "account.User"
 ROOT_URLCONF = 'core.urls'
-CORS_ALLOW_ALL_ORIGINS = True
+
 
 TEMPLATES = [
     {
@@ -245,10 +245,10 @@ EMAIL_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
 
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'coderkuchkarov@gmail.com'
-EMAIL_HOST_PASSWORD = 'gotlmweqzpzjfvue'
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'coderkuchkarov@gmail.com'
+# EMAIL_HOST_PASSWORD = 'gotlmweqzpzjfvue'
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
